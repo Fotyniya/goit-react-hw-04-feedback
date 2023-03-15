@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { Statistics } from "./Statistics/Statistics";
 import { Feedback } from "./Feedback/Feedback";
@@ -9,32 +9,31 @@ export const App = () => {
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
+  let total = useRef(0);
+  let positivePercentage = useRef(0);
 
   const countFeedback = event =>{
     console.log(event.target.name);
     switch (event.target.name) {
       case 'good':
-        setGood(good + 1);
+        setGood((prevState)=> prevState + 1);
         break;
       case 'neutral':
-        setNeutral(neutral + 1);
+        setNeutral((prevState)=> prevState + 1);
         break;
       case 'bad':
-        setBad(bad + 1);
+        setBad((prevState)=> prevState + 1);
         break;    
       default: 
         return;
     }
   };
 
-  const countTotalFeedback = () => {
-    let total = good + neutral + bad;
-    return total;
-  }
-
-  const countPositiveFeedbackPercentage = ()=>{
-    return countTotalFeedback() ? Math.round(good/countTotalFeedback()*100) : 0;
-  }
+  useEffect(()=>{
+    total.current = good + neutral + bad;
+    positivePercentage.current = Math.round(good/total.current*100);
+  },[good,neutral,bad]
+  );
 
   return (
     <Layout>
@@ -49,8 +48,8 @@ export const App = () => {
           good = { good }
           bad = { bad }
           neutral = { neutral }
-          total = { countTotalFeedback() }
-          positivePercentage = { countPositiveFeedbackPercentage() }
+          total = { total.current }
+          positivePercentage = { positivePercentage.current }
         /> 
       </Section>
     </Layout>
