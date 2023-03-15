@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { Statistics } from "./Statistics/Statistics";
-import { Feedback } from "./Feedback/Feedback";
+import { FeedbackOptions } from "./FeedbackOptions/FeedbackOptions";
 import { Section } from "./Section/Section";
 import { Layout } from "../components/Layout"
 
@@ -12,9 +12,8 @@ export const App = () => {
   let total = useRef(0);
   let positivePercentage = useRef(0);
 
-  const countFeedback = event =>{
-    console.log(event.target.name);
-    switch (event.target.name) {
+  const countFeedback = option =>{
+    switch (option) {
       case 'good':
         setGood((prevState)=> prevState + 1);
         break;
@@ -38,7 +37,8 @@ export const App = () => {
   return (
     <Layout>
       <Section title={"Please leave feedback"}>
-        <Feedback 
+        <FeedbackOptions 
+          options = {['good', 'neutral', 'bad']}
           onLeaveFeedback = { countFeedback }
         />
       </Section>
