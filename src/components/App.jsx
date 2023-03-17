@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-
+import { GlobalStyle } from "../components/GlobalStyle";
 import { Statistics } from "./Statistics/Statistics";
 import { FeedbackOptions } from "./FeedbackOptions/FeedbackOptions";
 import { Section } from "./Section/Section";
@@ -52,6 +52,7 @@ export const App = () => {
           positivePercentage = { positivePercentage.current }
         /> 
       </Section>
+      <GlobalStyle/>
     </Layout>
   );
 };
